@@ -9,6 +9,7 @@ var rep = new Rep;
 router.get('/', function(req, res, next) {
   info = rep.findReps('5460 Whitmore Lake Rd');
   res.render('index', { info: info });
+  console.log('in route handler' + info);
 });
 
 module.exports = router;
