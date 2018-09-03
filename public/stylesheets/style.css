@@ -10,3 +10,12 @@ a {
 h1 {
   text-align: center;
 }
+
+#sub-heading {
+  font-size: 25px;
+  text-align: center;
+}
+
+#address-form {
+  text-align: center;
+}
