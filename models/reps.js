@@ -11,16 +11,24 @@ var extractRepInfo = function(result){
           let houseRepIndices = parsedResult.offices.filter(obj => 
                   { return obj.name.includes('United States House of Representatives'); })[0].officialIndices;
           
-
           let houseReps = [];
           
           houseRepIndices.forEach( i => {
             houseReps.push(parsedResult.officials[i]);
           });
 
-          console.log(houseReps);
+          let senateRepIndices = parsedResult.offices.filter(obj => 
+                  { return obj.name.includes('United States Senate'); })[0].officialIndices;
 
-          return houseReps;
+          let senateReps = [];
+
+          senateRepIndices.forEach( i => {
+            senateReps.push(parsedResult.officials[i]);
+          });
+
+          console.log(senateReps);
+
+          return [houseReps, senateReps];
 
   }
 

@@ -9,7 +9,7 @@ var rep = new Rep;
 router.get('/representatives', function(req, res, next) {
   let address = `${req.query.address}`;
   rep.findReps(address).then(  result => 
-    {res.render('representatives', { info: result[0], address: address }, console.log('ass'))})
+    {res.render('representatives', { houseRepInfo: result[0], senateRepInfo: result[1], address: address })})
   //res.render('representatives');
 })
 

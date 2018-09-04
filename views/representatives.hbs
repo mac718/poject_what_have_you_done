@@ -2,4 +2,13 @@
 <h2>{{address}}</h2>
 
 <h2 id='house-reps-heading'>House</h2>
-<p>{{info.name}}</p>
+
+{{#each houseRepInfo as |rep|}}
+  <div><img class="rep-photo" src="{{rep.photoUrl}}"> <div class="rep-name-and-party"><div class="rep-name"><h3>{{rep.name}}</h3></div><div class="rep-party"><h4>{{rep.party}}</h4></div></div></div>
+{{/each}}
+
+<h2 id='house-reps-heading'>Senate</h2>
+
+{{#each senateRepInfo as |rep|}}
+  <div><img class="rep-photo" src="{{rep.photoUrl}}"> <div class="rep-name-and-party"><div class="rep-name"><h3>{{rep.name}}</h3></div><div class="rep-party"><h4>{{rep.party}}</h4></div></div></div>
+{{/each}}
