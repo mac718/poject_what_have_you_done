@@ -8,8 +8,8 @@ var rep = new Rep;
 /* GET home page. */
 router.get('/representatives', function(req, res, next) {
   let address = `${req.query.address}`;
-  rep.findReps(address,  result => 
-    {res.render('representatives', { info: result }, console.log('ass'))})
+  rep.findReps(address).then(  result => 
+    {res.render('representatives', { info: result[0], address: address }, console.log('ass'))})
   //res.render('representatives');
 })
 

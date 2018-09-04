@@ -5,8 +5,27 @@ const baseUri = 'https://www.googleapis.com/civicinfo/v2/';
 
 const googleKey = process.env.CIVIC_INFO_API_KEY;
 //wrap method in promise
+
+var extractRepInfo = function(result){
+    let parsedResult = JSON.parse(result);
+          let houseRepIndices = parsedResult.offices.filter(obj => 
+                  { return obj.name.includes('United States House of Representatives'); })[0].officialIndices;
+          
+
+          let houseReps = [];
+          
+          houseRepIndices.forEach( i => {
+            houseReps.push(parsedResult.officials[i]);
+          });
+
+          console.log(houseReps);
+
+          return houseReps;
+
+  }
+
 class Rep {
-  findReps(address, callback) {
+  findReps(address) {
     var options = {
         uri: `${baseUri}representatives`,
         qs: {
@@ -21,8 +40,9 @@ class Rep {
 
     return rp(options)
       .then(function (result) {
-          console.log('butts');
-          callback(result);
+          return Promise.resolve(extractRepInfo(result));
+          
+          
       })
       .catch(function (err) {
           console.log('nope');
