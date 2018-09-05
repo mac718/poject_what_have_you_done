@@ -1,5 +1,6 @@
 const request = require('request');
-const rp = require('request-promise')
+const rp = require('request-promise');
+const fs = require('file-system');
 
 const baseUri = 'https://www.googleapis.com/civicinfo/v2/';
 
@@ -7,29 +8,28 @@ const googleKey = process.env.CIVIC_INFO_API_KEY;
 //wrap method in promise
 
 var extractRepInfo = function(result){
-    let parsedResult = JSON.parse(result);
-          let houseRepIndices = parsedResult.offices.filter(obj => 
-                  { return obj.name.includes('United States House of Representatives'); })[0].officialIndices;
-          
-          let houseReps = [];
-          
-          houseRepIndices.forEach( i => {
-            houseReps.push(parsedResult.officials[i]);
-          });
+  let parsedResult = JSON.parse(result);
+    let houseRepIndices = parsedResult.offices.filter(obj => 
+            { return obj.name.includes('United States House of Representatives'); })[0].officialIndices;
+    
+    let houseReps = [];
+    
+    houseRepIndices.forEach( i => {
+      houseReps.push(parsedResult.officials[i]);
+    });
 
-          let senateRepIndices = parsedResult.offices.filter(obj => 
-                  { return obj.name.includes('United States Senate'); })[0].officialIndices;
+    let senateRepIndices = parsedResult.offices.filter(obj => 
+            { return obj.name.includes('United States Senate'); })[0].officialIndices;
 
-          let senateReps = [];
+    let senateReps = [];
 
-          senateRepIndices.forEach( i => {
-            senateReps.push(parsedResult.officials[i]);
-          });
+    senateRepIndices.forEach( i => {
+      senateReps.push(parsedResult.officials[i]);
+    });
 
-          console.log(senateReps);
+    console.log(senateReps);
 
-          return [houseReps, senateReps];
-
+    return [houseReps, senateReps];
   }
 
 class Rep {
@@ -48,9 +48,12 @@ class Rep {
 
     return rp(options)
       .then(function (result) {
-          return Promise.resolve(extractRepInfo(result));
-          
-          
+          let repInfo = extractRepInfo(result);
+          repInfo.forEach( rep => {
+          fs.writeFile('reps.json', JSON.stringify(rep), 'utf8', function(err) {
+            if (err) throw err;
+          })})
+          return Promise.resolve(repInfo);
       })
       .catch(function (err) {
           console.log('nope');
