@@ -33,7 +33,13 @@ h1, h2 {
   border-radius: 100%;
 }
 
-
 .rep-name-and-party{
   display: inline-block;
+}
+
+.bill-info {
+  border: 3px solid;
+  margin-bottom: 10px;
+  background-color: white;
+  padding: 5px;
 }

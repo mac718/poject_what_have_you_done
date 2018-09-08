@@ -1,0 +1,8 @@
+<h1><mark>What Have You Done?</mark></h1>
+<h3>Recent Votes</h3>
+{{#each repInfo as |vote|}}
+  <div class="bill-info">
+    <h2>{{vote.bill.bill_id}}</h2>
+    <p>{{vote.description}}</p>
+  </div>
+{{/each}}

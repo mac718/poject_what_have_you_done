@@ -9,12 +9,15 @@ const googleKey = process.env.CIVIC_INFO_API_KEY;
 
 var extractRepInfo = function(result){
   let parsedResult = JSON.parse(result);
+    let state = parsedResult.normalizedInput.state;
+
     let houseRepIndices = parsedResult.offices.filter(obj => 
             { return obj.name.includes('United States House of Representatives'); })[0].officialIndices;
     
     let houseReps = [];
     
     houseRepIndices.forEach( i => {
+      parsedResult.officials[i].state = state;
       houseReps.push(parsedResult.officials[i]);
     });
 
@@ -24,10 +27,11 @@ var extractRepInfo = function(result){
     let senateReps = [];
 
     senateRepIndices.forEach( i => {
+      parsedResult.officials[i].state = state;
       senateReps.push(parsedResult.officials[i]);
     });
 
-    console.log(senateReps);
+    //console.log(senateReps);
 
     return [houseReps, senateReps];
   }
@@ -49,10 +53,26 @@ class Rep {
     return rp(options)
       .then(function (result) {
           let repInfo = extractRepInfo(result);
-          repInfo.forEach( rep => {
-          fs.writeFile('reps.json', JSON.stringify(rep), 'utf8', function(err) {
-            if (err) throw err;
-          })})
+          
+          //console.log(repInfo);
+          
+          fs.unlink('houseReps.json', err => { if (err) throw err; });
+          fs.unlink('senateReps.json', err => { if (err) throw err; });
+
+          
+          repInfo.forEach( (rep, index) => {
+            console.log(index);
+            if (index == 0) {
+              fs.appendFile('houseReps.json', JSON.stringify(rep), 'utf8', err => {
+                if (err) throw err;
+              })
+            } else {
+              fs.appendFile('senateReps.json', JSON.stringify(rep), 'utf8', err => {
+                if (err) throw err;
+              })
+            }
+          })
+          
           return Promise.resolve(repInfo);
       })
       .catch(function (err) {
