@@ -1,8 +1,35 @@
 <h1><mark>What Have You Done?</mark></h1>
+
+<div class="votes-heading">
+  
+  <img src="{{repInfo.photoUrl}}" class="rep-photo" id="votes-heading-photo">
+
+  {{#if party }}
+    <h3>Republican Congressperson</h3>
+  {{else}}
+    <h3>Democratic Congressperson</h3>
+  {{/if}}
+
+</div>
+
+<h2><mark>{{repInfo.name}}</mark></h2>
+
+<h3>Contact Info</h3>
+
+<div id="contact-info">
+  <p>Phone Number:</p>
+  <span id="phone">{{phone}}</span>
+  <p>Website:</p>
+  <span id="website">{{website}}</span>
+</div>
+
 <h3>Recent Votes</h3>
-{{#each repInfo as |vote|}}
+
+{{#each repVotes as |vote|}}
+<a href="">
   <div class="bill-info">
-    <h2>{{vote.bill.bill_id}}</h2>
+    <h2>{{vote.bill.number}}</h2>
     <p>{{vote.description}}</p>
   </div>
+</a>
 {{/each}}

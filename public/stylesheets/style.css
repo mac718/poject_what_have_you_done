@@ -10,7 +10,7 @@ a {
   color: #00B7FF;
 }
 
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
 }
 
@@ -37,9 +37,27 @@ h1, h2 {
   display: inline-block;
 }
 
-.bill-info {
-  border: 3px solid;
+.bill-info, #contact-info {
+  border: 1px solid;
   margin-bottom: 10px;
   background-color: white;
   padding: 5px;
+}
+
+#votes-heading-photo {
+  display: block;
+  margin: auto;
+}
+
+.votes-heading h3 {
+  text-align: center;
+}
+
+#contact-info {
+  width: 400px;
+  margin: auto;
+}
+
+#phone, #website {
+  font-size: 24px;
 }

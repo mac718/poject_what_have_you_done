@@ -25,7 +25,36 @@ router.get('/', function(req, res, next) {
   //let targetedHouseReps = fs.readFileSync('houseReps.json', (err, data) => {});
 
   //Promise.resolve(vote.getRepVotes()).then(result => { res.render('votes', { repInfo: JSON.parse(result)[0] }) });
-  vote.getRepVotes().then( result => { res.render('votes', {repInfo: JSON.parse(result).results[0].votes })});
+  let rep;
+  let targetedRep;
+  let party;
+
+  if (req.query.chamber == 0) {
+    reps = fs.readFileSync('houseReps.json', (err, data) => {});
+    targetedRep = JSON.parse(reps)[0];
+    if (targetedRep.party == 'Republican') {
+      party = 'Republican';
+    }
+  } else {
+    reps = fs.readFileSync('senateReps.json', (err, data) => {});
+
+    
+    targetedRep = JSON.parse(reps).filter( rep => { 
+      return req.query.id == rep.name 
+    });
+    console.log(targetedRep);
+
+    if (targetedRep[0].party == 'Republican') {
+      party = 'Republican';
+    }
+  }
+
+  //console.log(JSON.parse(rep)[req.query.id]);
+
+  vote.getRepVotes(req.query.chamber, req.query.id).then( result => 
+    { res.render('votes', 
+      { repInfo: targetedRep[0], repVotes: JSON.parse(result).results[0].votes.slice(0, 10) , party: party, 
+        phone: targetedRep[0].phones[0], website: targetedRep[0].urls[0] })});
 })
 
 module.exports = router;
