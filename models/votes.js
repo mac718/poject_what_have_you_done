@@ -59,15 +59,8 @@ class Vote {
         let id = rep[0].id;
         console.log(result[0]);
         return rp(`${baseUri}members/${id}/votes.json`, { headers: {'X-API-Key': proPublicaKey }});
-      })
-    // } else {
-    //   return this.getSenateMembers()
-    //   .then( result => {
-    //     console.log(result[1]);
-    //     return rp(`${baseUri}members/${result[1]}/votes.json`, { headers: {'X-API-Key': proPublicaKey }});
-    //   })
-    // };
-  };
+      });
+    };
   }
 }
 

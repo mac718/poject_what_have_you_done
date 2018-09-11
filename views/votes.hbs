@@ -26,10 +26,19 @@
 <h3>Recent Votes</h3>
 
 {{#each repVotes as |vote|}}
-<a href="">
+
   <div class="bill-info">
     <h2>{{vote.bill.number}}</h2>
     <p>{{vote.description}}</p>
   </div>
-</a>
+
+  <script type="text/javascript">
+    var position = "{{vote.position}}";
+    if (position == 'No' ) {
+      $('.bill-info').addClass('no-vote');
+    } else {
+      $('.bill-info').addClass('yes-vote');
+    };
+  </script>
+
 {{/each}}

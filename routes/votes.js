@@ -32,6 +32,7 @@ router.get('/', function(req, res, next) {
   if (req.query.chamber == 0) {
     reps = fs.readFileSync('houseReps.json', (err, data) => {});
     targetedRep = JSON.parse(reps)[0];
+    console.log(targetedRep);
     if (targetedRep.party == 'Republican') {
       party = 'Republican';
     }
@@ -41,10 +42,10 @@ router.get('/', function(req, res, next) {
     
     targetedRep = JSON.parse(reps).filter( rep => { 
       return req.query.id == rep.name 
-    });
+    })[0];
     console.log(targetedRep);
 
-    if (targetedRep[0].party == 'Republican') {
+    if (targetedRep.party == 'Republican') {
       party = 'Republican';
     }
   }
@@ -53,8 +54,8 @@ router.get('/', function(req, res, next) {
 
   vote.getRepVotes(req.query.chamber, req.query.id).then( result => 
     { res.render('votes', 
-      { repInfo: targetedRep[0], repVotes: JSON.parse(result).results[0].votes.slice(0, 10) , party: party, 
-        phone: targetedRep[0].phones[0], website: targetedRep[0].urls[0] })});
+      { repInfo: targetedRep, repVotes: JSON.parse(result).results[0].votes.slice(0, 10), party: party, 
+        phone: targetedRep.phones[0], website: targetedRep.urls[0] })});
 })
 
 module.exports = router;
